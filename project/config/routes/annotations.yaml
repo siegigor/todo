@@ -1,3 +1,12 @@
+api:
+    resource: ../../src/Controller/Api/
+    prefix: /api
+    name_prefix: api.
+    trailing_slash_on_root: true
+    type: annotation
+    defaults:
+        _format: json
+
 kernel:
     resource: ../../src/Kernel.php
     type: annotation
