@@ -1,0 +1,49 @@
+version: '3'
+services:
+    todo-nginx:
+        build:
+            context: ./project/docker/development/nginx
+            dockerfile: Dockerfile
+        volumes:
+            - ./project:/app
+        ports:
+            - "8091:80"
+
+    todo-php-fpm:
+        build:
+            context: ./project/docker/development/php
+            dockerfile: php-fpm/Dockerfile
+        volumes:
+            - ./project:/app
+        environment:
+            BASE_URL: 127.0.0.1:8091
+            SCHEME: http
+            DATABASE_URL: "postgresql://todo:todo@todo-postgres:5432/todo?serverVersion=11.2&charset=utf8"
+
+    todo-php-cli:
+        build:
+            context: ./project/docker/development/php
+            dockerfile: php-cli/Dockerfile
+        volumes:
+            - ./project:/app
+            - todo-composer:/root/.composer/cache
+        environment:
+            BASE_URL: 127.0.0.1:8091
+            SCHEME: http
+            DATABASE_URL: "postgresql://todo:todo@todo-postgres:5432/todo?serverVersion=11.2&charset=utf8"
+        tty: true
+
+    todo-postgres:
+        image: postgres:11.2-alpine
+        volumes:
+            - todo-postgres:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: todo
+            POSTGRES_PASSWORD: todo
+            POSTGRES_DB: todo
+        ports:
+            - "54329:5432"
+
+volumes:
+    todo-postgres:
+    todo-composer:
