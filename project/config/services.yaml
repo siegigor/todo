@@ -18,6 +18,9 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+    App\Validation\Validator: ~
+    App\Validation\ValidatorInterface: '@App\Validation\Validator'
+
     App\Infrastructure\Model\User\Entity\User\UserRepository: ~
     App\Model\User\Entity\User\UserRepository: '@App\Infrastructure\Model\User\Entity\User\UserRepository'
 
