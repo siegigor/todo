@@ -9,9 +9,21 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
+            - '../src/Model/Task/Entity'
+            - '../src/Model/User/Entity'
             - '../src/Kernel.php'
             - '../src/Tests/'
 
     App\Controller\:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
+
+    App\Infrastructure\Model\User\Entity\User\UserRepository: ~
+    App\Model\User\Entity\User\UserRepository: '@App\Infrastructure\Model\User\Entity\User\UserRepository'
+
+    App\Infrastructure\Model\Task\Entity\Task\TaskRepository: ~
+    App\Model\Task\Entity\Task\TaskRepository: '@App\Infrastructure\Model\Task\Entity\Task\TaskRepository'
+
+    App\Infrastructure\FetchModel\User\UserFetcher: ~
+    App\FetchModel\User\UserFetcher: '@App\Infrastructure\FetchModel\User\UserFetcher'
+
